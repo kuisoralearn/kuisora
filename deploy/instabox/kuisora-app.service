@@ -1,0 +1,15 @@
+[Unit]
+Description=Kuisora web application
+After=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/data/workspace/kuisora
+Environment=NODE_ENV=production
+EnvironmentFile=/data/home/.config/kuisora/app.env
+ExecStart=/usr/local/bin/node /data/workspace/kuisora/node_modules/next/dist/bin/next start --hostname 127.0.0.1 --port 3000
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target
