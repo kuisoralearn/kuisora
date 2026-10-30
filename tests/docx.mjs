@@ -1,0 +1,13 @@
+import {buildDocxBlob,prepareExam} from '../lib/export.ts';
+import {samples} from '../lib/quiz.ts';
+import {writeFile,mkdir} from 'node:fs/promises';
+import assert from 'node:assert/strict';
+const options={school:'Sekolah Uji',subject:'IPA',duration:45,shuffle:true,key:false,images:false,count:8,version:'QA001'};
+const quiz=prepareExam(samples[0],options);
+assert.equal(quiz.questions.length,8);
+assert.deepEqual(new Set(quiz.questions.map(q=>q.id)),new Set(samples[0].questions.map(q=>q.id)));
+await mkdir('/workspace/scratch/kuisora-qa',{recursive:true});
+await writeFile('/workspace/scratch/kuisora-qa/exam.docx',Buffer.from(await(await buildDocxBlob(quiz,options)).arrayBuffer()));
+await writeFile('/workspace/scratch/kuisora-qa/key.docx',Buffer.from(await(await buildDocxBlob(quiz,{...options,key:true})).arrayBuffer()));
+await writeFile('/workspace/scratch/kuisora-qa/expected.json',JSON.stringify(quiz));
+console.log('DOCX exam and answer key generated from the same shuffled package.');
