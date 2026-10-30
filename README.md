@@ -38,3 +38,5 @@ Project Supabase yang sudah disiapkan memiliki migrasi `20261030030918_kuisora_b
 ## Instabox
 
 For `instabox-1`, copy `deploy/instabox/kuisora-app.service` to `~/.config/systemd/user/` and put the server environment in `~/.config/kuisora/app.env` with permissions `600`. This environment file has the same keys as `.env.example` in `KEY=value` form. After adding or rotating credentials, restart with `systemctl --user restart kuisora-app.service`. The Cloudflare Tunnel is managed separately and routes the domain to port 3000. It does not keep a free sandbox awake.
+
+On the Instabox terminal, run `bash /data/workspace/kuisora/deploy/instabox/configure-supabase.sh` to enter the Supabase server key at a hidden prompt and restart the service. The actual key stays in the server's mode-600 environment file, not the repository or shell history.
